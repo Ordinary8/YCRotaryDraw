@@ -42,8 +42,13 @@
     hander.image = [UIImage imageNamed:@"hander.png"];
     [self.view addSubview:hander];
     
+    _labPrise = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_zhuanpan.frame), CGRectGetMaxY(_zhuanpan.frame)+50, CGRectGetWidth(_zhuanpan.frame), 20)];
+    _labPrise.textColor = [UIColor orangeColor];
+    _labPrise.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_labPrise];
+    
     //开始或停止按钮
-    btn = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width-200)/2, self.view.frame.size.height-200, 200, 35)];
+    btn = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width-200)/2, CGRectGetMaxY(_labPrise.frame)+50, 200, 35)];
     [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
     [btn setTitle:@"开始" forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor orangeColor]];
@@ -52,11 +57,6 @@
     btn.layer.cornerRadius = 5.0f;
     btn.layer.masksToBounds = YES;
     [self.view addSubview:btn];
-    
-    _labPrise = [[UILabel alloc] initWithFrame:CGRectMake(100, 400, 200, 20)];
-    _labPrise.textColor = [UIColor orangeColor];
-    [self.view addSubview:_labPrise];
-    
 }
 
 - (void)btnClick
@@ -101,17 +101,14 @@
                      animations:^{
                          
                          _popView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-                         
                          _popView.backgroundColor = [UIColor clearColor];
-                         _popView.alpha = 0.7;
-                         
+                         _popView.transform = CGAffineTransformMakeScale(2, 2);
+                         [self.view addSubview:_popView];
+
                          UIImageView *popImageView = [[UIImageView alloc] initWithFrame:CGRectMake(100, 150, self.view.frame.size.width-200, self.view.frame.size.width-200)];
                          popImageView.image = [UIImage imageNamed:@"prise.png"];
                          [_popView addSubview:popImageView];
-                         [self.view addSubview:_popView];
                         
-                         _popView.transform = CGAffineTransformMakeScale(1.5, 1.5);
-                         
                      }
                      completion:^(BOOL finished) {
                          [_popView removeFromSuperview];
@@ -122,33 +119,5 @@
                      }];
 
 }
-
-////使用NSURLSessionDataTask请求数据
-//- (void)loadData {
-//
-//    [_activity startAnimating];
-//
-//    // 创建Data Task
-//    NSURL *url = [NSURL URLWithString:@"http://192.168.41.48/~jenkins/Json/lottery.php"];
-//
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    NSURLSession *session = [NSURLSession sharedSession];
-//    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-//                                                completionHandler:
-//                                      ^(NSData *data, NSURLResponse *response, NSError *error) {
-//                                          // 输出返回的状态码，请求成功的话为200
-//                                          NSDictionary *jsondic;
-//                                              jsondic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-//                                          NSLog(@"%@",jsondic);
-//                                          
-//                                          num = [[[jsondic objectForKey:@"result"] objectForKey:@"num"] integerValue];
-//                                          strPrise = [[jsondic objectForKey:@"result"] objectForKey:@"info"];
-//                                          [_activity stopAnimating];
-//                                          [self startAnimation];
-//                                          
-//                                      }];
-//    [dataTask resume];
-//}
-
 
 @end
